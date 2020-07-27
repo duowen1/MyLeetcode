@@ -10,7 +10,7 @@ public:
 int main(){
     Solution so;
     vector<int> nums={1,3,5,6};
-    int answer=so.searchInsert(nums,2);
+    int answer=so.searchInsert(nums,5);
     cout<<answer<<endl;
 }
 
