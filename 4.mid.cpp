@@ -2,6 +2,10 @@
 #include <vector>
 using namespace std;
 
+/*
+实际上遍历的是空格
+*/
+
 class Solution{
 public:
     double findMedianSortedArrays(vector<int>& nums1,vector <int>& nums2);
