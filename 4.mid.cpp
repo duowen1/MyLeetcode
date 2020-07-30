@@ -16,6 +16,10 @@ double Solution :: findMedianSortedArrays(vector<int>& nums1, vector <int>& nums
     根据中位数的特点可以得知，nums1[l1]<=mid<=nums2[l2+1]，且nums2[l2]<=mid<=nums1[l1+1]
     故可以通过二分查找l1或者l2获得中位数
     */
+    int L1max;
+    int R1min;
+    int L2max;
+    int R2min;
     int nums1_n=nums1.size();
     int nums2_n=nums2.size();
     int length=nums1_n+nums2_n;//总数
@@ -24,6 +28,29 @@ double Solution :: findMedianSortedArrays(vector<int>& nums1, vector <int>& nums
         if(length%2) return nums2[length/2];
         else return (nums2[length/2]+nums2[length/2-1])/2.0;
     }
+    if(nums1[nums1_n-1]<=nums2[0]){//nums1整体小于nums2
+        if(length%2){//odd
+            int left=length/2-nums1_n;
+            return nums2[left];
+        }else{
+            if(nums1_n==nums2_n) return (nums1[nums1_n-1]+nums2[0])/2.0;
+            else{
+                int left=length/2-nums1_n;
+                return (nums2[left]+nums2[left-1])/2.0;
+            }
+        }
+    }
+    if(nums1[0]>=nums2[nums2_n-1]){//nums1整体大于nums2
+        if(length%2){
+            return nums2[length/2];
+        }else{
+            if(nums1_n==nums2_n) return (nums1[0]+nums2[nums2_n-1])/2.0;
+            else{
+                return (nums2[length/2]+nums2[length/2-1])/2.0;
+            }
+        }
+    }
+
     int left=0;
     int right=nums1_n-1;
     int mid,mid_2;
@@ -38,10 +65,10 @@ double Solution :: findMedianSortedArrays(vector<int>& nums1, vector <int>& nums
         总数是偶数时，L1、L2数量和为总数的一半
         总数时奇数时，L1、L2数量和为总数+1的一半
         */
-        int L1max=(mid==0?INT_MIN:nums1[mid]);
-        int R1min=(mid==nums1_n-1?INT_MAX:nums1[mid+1]);
-        int L2max=(mid_2==0?INT_MIN:nums2[mid_2]);
-        int R2min=(mid_2==nums2_n-1?INT_MAX:nums2[mid_2+1]);
+        L1max=(mid==-1?INT_MIN:nums1[mid]);
+        R1min=(mid==nums1_n-1?INT_MAX:nums1[mid+1]);
+        L2max=(mid_2==-1?INT_MIN:nums2[mid_2]);
+        R2min=(mid_2==nums2_n-1?INT_MAX:nums2[mid_2+1]);
         if(L1max<=R2min){
             /*
             此时满足条件1，满足条件2时，退出
@@ -53,16 +80,17 @@ double Solution :: findMedianSortedArrays(vector<int>& nums1, vector <int>& nums
         }
     }
     //奇数返回中值，偶数返回平均数
+
     if(length%2){//old
         return max(nums1[mid],nums2[mid_2]);
     }else{
-        return (max(nums1[mid],nums2[mid_2])+min(nums1[mid+1],nums2[mid_2+1]))/2.0;
+        return (max(nums1[mid],nums2[mid_2])+min(R1min,R2min))/2.0;
     }
 }
 
 int main(){
-    vector<int> nums1={1,3};
-    vector<int> nums2={2};
+    vector<int> nums1={4};
+    vector<int> nums2={1,2,3,5};
     Solution so;
     cout<<so.findMedianSortedArrays(nums1,nums2)<<endl;
 }
