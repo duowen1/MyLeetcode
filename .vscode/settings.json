@@ -1,6 +1,9 @@
 {
     "files.associations": {
         "vector": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "set": "cpp",
+        "cmath": "cpp",
+        "*.tcc": "cpp"
     }
 }
